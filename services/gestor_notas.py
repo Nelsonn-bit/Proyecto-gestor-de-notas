@@ -75,3 +75,14 @@ class GestorNotas :
             os . remove ( ruta )
             return True
         return False
+
+    def contar_notas(self):
+        """
+        Devuelve la cantidad total de notas válidas (.txt) almacenadas,
+        excluyendo respaldos (_bak) o exportaciones.
+        """
+        notas_validas = [
+            a for a in os.listdir(self.carpeta)
+            if a.endswith(".txt") and "_bak" not in a and "export" not in a.lower()
+        ]
+        return len(notas_validas)
