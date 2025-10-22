@@ -2,6 +2,7 @@ from models . nota import Nota
 from services . gestor_notas import GestorNotas
 gestor = GestorNotas ()
 def mostrar_menu () :
+    """Muestra el menú de opciones al usuario."""
     print ("\n- -- Gestor de Notas ---")
     print ("1. Crear nota ")
     print ("2. Leer nota ")
