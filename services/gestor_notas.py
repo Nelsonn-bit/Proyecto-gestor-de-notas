@@ -49,6 +49,14 @@ class GestorNotas :
 
     def editar ( self , nombre , nuevo_contenido ) :
         """Edita una nota existente y crea un respaldo antes de modificarla."""
+
+        # Validación de entradas
+        if not nombre.strip():
+            print("El nombre de la nota no puede estar vacío.")
+            return False
+        if len(nuevo_contenido.strip()) < 5:
+            print("El contenido es muy corto (mínimo 5 caracteres).")
+            return False
         
         ruta = os . path . join ( self . carpeta , f"{ nombre }. txt ")
         if os . path . exists ( ruta ) :
