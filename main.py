@@ -14,7 +14,8 @@ def mostrar_menu():
     print("5. Editar nota ")
     print("6. Eliminar nota ")
     print("7. Contar notas existentes ")
-    print("8. Salir ")
+    print("8. Exportar notas a JSON ")
+    print("9. Salir ")
 
 
 while True:
@@ -66,6 +67,10 @@ while True:
         print(f" Total de notas existentes : {total}")
 
     elif opcion == "8":
+        mensaje = gestor.exportar_a_json()
+        print(mensaje)
+
+    elif opcion == "9":
         print(" Programa finalizado .")
         break
     else:

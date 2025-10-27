@@ -77,36 +77,40 @@ class GestorNotas:
         ]
         return len(notas_validas)
 
-"""
+
     def exportar_a_json(self):
-        # ""Exporta todas las notas válidas a un archivo 'notas.json'.#
+        """
+        Exporta todas las notas válidas a un archivo 'notas.json'.
+        Cada nota se guarda como un objeto con nombre, fecha y contenido.
+        """
+        import json
+
         notas_data = []
 
         for archivo in os.listdir(self.carpeta):
-            if (
-                archivo.endswith(".txt")
-                and "_bak" not in archivo
-                and "export" not in archivo.lower()
-            ):
+            if archivo.endswith(".txt") and "_bak" not in archivo and "export" not in archivo.lower():
                 ruta = os.path.join(self.carpeta, archivo)
                 with open(ruta, "r", encoding="utf-8") as f:
                     contenido = f.read()
 
+                # Extraer la fecha (línea 1) y el contenido (resto del archivo)
                 lineas = contenido.splitlines()
                 fecha = ""
                 cuerpo = ""
                 if lineas and lineas[0].startswith("Fecha:"):
                     fecha = lineas[0].replace("Fecha:", "").strip()
-                    cuerpo = "\n".join(lineas[2:])
+                    cuerpo = "\n".join(lineas[2:])  # El contenido empieza después de la línea vacía
                 else:
                     cuerpo = contenido.strip()
 
-                notas_data.append(
-                    {"nombre": archivo[:-4], "fecha": fecha, "contenido": cuerpo}
-                )
+                notas_data.append({
+                    "nombre": archivo[:-4],
+                    "fecha": fecha,
+                    "contenido": cuerpo
+                })
 
+        # Guardar en JSON
         with open("notas.json", "w", encoding="utf-8") as json_file:
             json.dump(notas_data, json_file, ensure_ascii=False, indent=4)
 
         return f"Se exportaron {len(notas_data)} notas a 'notas.json'."
-"""
