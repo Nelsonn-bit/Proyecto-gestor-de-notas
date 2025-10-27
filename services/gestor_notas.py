@@ -22,11 +22,15 @@ class GestorNotas:
 
     def leer(self, nombre):
         """Lee y devuelve el contenido de una nota por su nombre."""
-        ruta = os.path.join(self.carpeta, f"{nombre}.txt")
-        if os.path.exists(ruta):
+        try:
+            ruta = os.path.join(self.carpeta, f"{nombre}.txt")
+            if not os.path.exists(ruta):
+                return "Error: la nota no existe."
             with open(ruta, "r", encoding="utf-8") as archivo:
                 return archivo.read()
-        return "Nota no encontrada."
+        except Exception as e:
+            # Manejo de errores dentro del servicio, no en main.py
+            return f"Ocurrió un error al leer la nota: {str(e)}"
 
     def listar(self):
         """Devuelve una lista con los nombres de todas las notas almacenadas."""
@@ -43,30 +47,32 @@ class GestorNotas:
         return resultados
 
     def editar(self, nombre, nuevo_contenido):
-        """Edita una nota existente y crea un respaldo antes de modificarla."""
-        if not nombre.strip():
-            print("El nombre de la nota no puede estar vacío.")
-            return False
-        if len(nuevo_contenido.strip()) < 5:
-            print("El contenido es muy corto (mínimo 5 caracteres).")
-            return False
-
-        ruta = os.path.join(self.carpeta, f"{nombre}.txt")
-        if os.path.exists(ruta):
+        """Edita una nota existente y crea un respaldo antes de modificarla.
+        """
+        try:
+            ruta = os.path.join(self.carpeta, f"{nombre}.txt")
+            if not os.path.exists(ruta):
+                return False
             respaldo = os.path.join(self.carpeta, f"{nombre}_bak.txt")
             shutil.copy(ruta, respaldo)
             with open(ruta, "w", encoding="utf-8") as archivo:
                 archivo.write(nuevo_contenido)
             return True
-        return False
+        except Exception as e:
+            print(f"Error al editar la nota: {str(e)}")
+            return False
 
     def eliminar(self, nombre):
         """Elimina una nota por nombre y responde con mensajes seguros."""
-        ruta = os.path.join(self.carpeta, f"{nombre}.txt")
-        if os.path.exists(ruta):
+        try:
+            ruta = os.path.join(self.carpeta, f"{nombre}.txt")
+            if not os.path.exists(ruta):
+                return False
             os.remove(ruta)
             return True
-        return False
+        except Exception as e:
+            print(f"Error al eliminar la nota: {str(e)}")
+            return False
 
     def contar_notas(self):
         """Devuelve la cantidad total de notas válidas (.txt) almacenadas."""
