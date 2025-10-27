@@ -12,7 +12,13 @@ class GestorNotas:
         self.carpeta = carpeta.strip()
         if not os.path.exists(self.carpeta):
             os.makedirs(self.carpeta)
-
+# ------------------------------------------------------------
+# Manejo de errores y decisiones de diseño:
+# Se manejan las excepciones aquí porque
+# los errores de lectura, edición y eliminación son parte de la lógica
+# de persistencia. Así evitamos que el programa principal (main.py)
+# se detenga y solo mostramos mensajes informativos al usuario.
+# ------------------------------------------------------------
     def guardar(self, nota: Nota):
         """Guarda una nueva nota en la carpeta designada, validando la entrada."""
         ruta = os.path.join(self.carpeta, f"{nota.nombre}.txt")
